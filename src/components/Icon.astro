@@ -1,0 +1,42 @@
+---
+/**
+ * Icon.astro
+ *
+ * A reusable component for rendering Font Awesome icons as inline SVG.
+ *
+ * Props:
+ *  - icon: (IconDefinition) The icon definition from a Font Awesome package.
+ *  - class: (optional) Additional CSS classes for styling the container.
+ */
+
+ import { type IconDefinition, icon } from '@fortawesome/fontawesome-svg-core';
+
+interface Props {
+	icon: IconDefinition;
+	class?: string;
+}
+
+const { icon: faIcon, class: css } = Astro.props as Props;
+
+const rendered = icon(faIcon);
+if (!rendered) {
+	throw new Error(
+		"Icon: Failed to render icon. Verify that you provided a valid Font Awesome icon."
+	);
+}
+---
+
+<div class={css}>
+	<Fragment set:html={rendered.html}/>
+</div>
+
+<style>
+	div {
+		display: inline-block;
+	}
+	:global(.svg-inline--fa) {
+		display: inline-block;
+		width: 100%;
+		height: 100%;
+	}
+</style>
